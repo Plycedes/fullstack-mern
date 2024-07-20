@@ -36,7 +36,7 @@ app.get("/api/pirates", (req, res) => {
     ];
 
     if (req.query.search) {
-        const filterProducts = pirates.filter((pirate) => product.name.includes(req.query.search));
+        const filterProducts = pirates.filter((pirate) => pirate.name.includes(req.query.search));
         res.send(filterProducts);
         return;
     }
