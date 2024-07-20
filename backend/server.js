@@ -34,7 +34,16 @@ app.get("/api/pirates", (req, res) => {
             title: "Sniper",
         },
     ];
-    res.send(pirates);
+
+    if (req.query.search) {
+        const filterProducts = pirates.filter((pirate) => product.name.includes(req.query.search));
+        res.send(filterProducts);
+        return;
+    }
+
+    setTimeout(() => {
+        res.send(pirates);
+    }, 3000);
 });
 
 app.listen(port, () => {

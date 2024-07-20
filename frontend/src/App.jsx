@@ -1,37 +1,48 @@
-import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { customReactQuery } from "./Components/CustomApiParser";
 import "./App.css";
-import axios from "axios";
 
 function App() {
-    const [pirates, setPirates] = useState([]);
+    const [pirates, error, loading] = customReactQuery("/api/pirates");
 
-    useEffect(() => {
-        axios
-            .get("/api/pirates")
-            .then((response) => {
-                setPirates(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    });
+    if (error) {
+        return <h1>Something went wrong</h1>;
+    }
+
+    if (loading) {
+        return <h1>Loading</h1>;
+    }
 
     return (
         <>
-            <h1>I Love Nico Robin</h1>
-            <p>Pirates: {pirates.length}</p>
-
-            {pirates.map((pirate, index) => (
-                <div key={pirate.id}>
-                    <h3>{pirate.name}</h3>
-                    <p>{pirate.title}</p>
-                </div>
-            ))}
+            <h1>CUSTOM API HOOK</h1>
+            <h2>Number of pirates: {pirates.length}</h2>
         </>
     );
 }
 
 export default App;
+
+// const customReactQuery = (urlPath) => {
+//     const [data, setData] = useState([]);
+//     const [error, setError] = useState(false);
+//     const [loading, setLoading] = useState(false);
+
+//     useEffect(() => {
+//         (async () => {
+//             try {
+//                 setError(false);
+//                 setLoading(true);
+//                 const response = await axios.get(urlPath);
+//                 console.log(response.data);
+//                 setData(response.data);
+//                 setLoading(false);
+//             } catch (error) {
+//                 setError(true);
+//                 setLoading(false);
+//             }
+//         })();
+//     }, []);
+
+//     return [data, error, loading];
+// };
 
